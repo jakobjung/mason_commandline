@@ -20,8 +20,8 @@ all_off_targets = all_off_targets[all_off_targets["longest_stretch"] >= 7]
 output_df = pd.read_csv(sys.argv[1] + "/result_table.tsv", sep="\t", index_col=None)
 
 # add variable for whether it is in the TIR (-20 to +5 start)
-all_off_targets.loc[all_off_targets["trans_coord"].isin(range(-20, 5)), "TIR"] = "TIR"
-all_off_targets.loc[~all_off_targets["trans_coord"].isin(range(-20, 5)), "TIR"] = "not in TIR"
+all_off_targets.loc[all_off_targets["trans_coord"].isin(range(-20, 6)), "TIR"] = "TIR"
+all_off_targets.loc[~all_off_targets["trans_coord"].isin(range(-20, 6)), "TIR"] = "not in TIR"
 
 all_off_targets.to_csv(sys.argv[1] + "/offtargets_fulltranscripts_sorted.csv")
 all_off_targets[all_off_targets["TIR"] == "TIR"].to_csv(sys.argv[1] + "/offtargets_startregions_sorted.csv")

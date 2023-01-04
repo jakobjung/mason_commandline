@@ -96,12 +96,15 @@ do
 	i) result_id=${OPTARG};;
 	p) pna_input=${OPTARG};;
 	b) bases_before=${OPTARG};;
+  s) screen=${OPTARG};;
 	h) Help
 	   exit;;
 	V) echo "$version"
 	   exit;;
     esac
 done
+
+scriptDir=$(dirname -- "$(readlink -f -- "$BASH_SOURCE")")
 
 
 # I print them out to be sure it worked out:
@@ -122,23 +125,30 @@ REF="$RES/reference_sequences"
 OUT="$RES/outputs"
 GFF="$(basename -- $gff)"
 FASTA="$(basename -- $fasta)"  # get base names of files wo paths
+WARNINGS="$RES/warnings.txt"
 
 echo "$REF"
 echo "$OUT"
 
+
 mkdir -p $REF $OUT
+touch "$WARNINGS"
 
 scp "$gff" "$REF/$GFF"
 scp "$fasta" "$REF/$FASTA"
 
 # same for full regions (change to whole CDS and 30 nt upstream):
-grep -P "\tCDS\t|\tsRNA\t|\tncRNA\t" $gff |\
-        awk -F'\t' 'BEGIN { OFS="\t" } \
-{if ($7=="-") {$5=$5+30} \
-else { $4=$4-30} print $0}'| \
-    sed -E 's/([^\t]*\t[^\t]*\t)([^\t]*)(.*locus_tag=([^;]+).*)/\1\4\3/' | \
-    sed -E 's/([^\t]*\t[^\t]*\t)([^\t]*)(.*gene=([^;]+).*)/\1\2;\4\3/' \
-	> "$REF/full_transcripts_$GFF"
+grep -P "\tCDS\t|\tsRNA\t|\tncRNA\t|\tgene\t" $gff |\
+        awk -F'\t' 'BEGIN { OFS="\t" } {if ($7=="-") {$5=$5+30} else { $4=$4-30} print $0}'| \
+    sed -E 's/([^\t]*\t[^\t]*\t)([^\t]*)(.*;locus_tag=([^;]+).*)/\1\4\3/' | \
+    sed -E 's/([^\t]*\t[^\t]*\t)([^\t]*)(.*;gene=([^;]+).*)/\1\2;\4\3/' |
+    grep ";locus_tag="> \
+    "$REF/full_transcripts_$GFF"
+
+bioawk -c fastx '{ print $name, length($seq) }' < "$fasta"  > "$REF/genelengths.tsv"
+
+# change the gff entries that go too far:
+Rscript ./scripts/modify_gff.R "$REF/full_transcripts_$GFF" "$REF/genelengths.tsv" "$WARNINGS"
 
 # I extract the fasta files from the gff using bedtools:
 bedtools getfasta -s -fi $fasta -bed "$REF/full_transcripts_$GFF"  \
@@ -189,7 +199,7 @@ for NAME in $(ls $OUT/offtargets_*.tab)
 do
     echo "$NAME"
     NEWNAME=${NAME%.tab}_sorted.tab
-    head -1 $NAME | sed -E "s/(.*)/\\1\tmismatch_positions\tlongest_stretch/" |
+    head -1 $NAME | sed -E "s/(.*)/\\1\tmismatch_positions\tlongest_stretch\tbinding_sequence/"|
 	sed -E  's/^trans_id/locus_tag\tgene_name\tstrand/' > $NEWNAME
     echo "$NEWNAME"
     sed 1d $NAME |\
@@ -200,28 +210,39 @@ do
 	    mm="none"
 	    stretch=0
 	    longest_stretch=0
-	     for(i=1; pos == 0 && i <= max; i++) 
+	    binding_sequence=""
+	    longest_binding_sequence=""
+	     for(i=1; pos == 0 && i <= max; i++)
 	     {
-		    v1=substr($3, i, 1) 
+		    v1=substr($3, i, 1)
 		    v2=substr($5, i, 1)
 		    if(v1 != v2)
 		     {
 		       stretch=0
+		       binding_sequence=""
 		       if(mm=="none") {mm=i} else {mm=mm ";" i}
 		     }
-		     else 
+		     else
 		     {
-			stretch++
-			if(stretch > longest_stretch) {longest_stretch=stretch}
+		      binding_sequence=binding_sequence v1
+          stretch++
+          if(stretch > longest_stretch)
+          {
+          longest_stretch=stretch
+          longest_binding_sequence=binding_sequence
+          }
 		     }
-	     } 
+	     }
 	     $7=mm
 	     $8=longest_stretch
+	     $9=longest_binding_sequence
 	     $2=$2-32
 	     print $0
 	}' |  sed -E 's/^([^;:]*)::/\1;\1::/'| \
-	    sed -E 's/^([^;:]*);([^:]*)::[^\(]*\(([\+\-])\)/\1\t\2\t\3/' >> $NEWNAME
-    rm $NAME
+	    sed -E 's/^([^;:]*);([^:]*)::[^\(]*\(([\+\-])\)/\1\t\2\t\3/'| \
+	     sed -E 's/^([A-Z][A-Z]_[^ ]+) ([^\t]+)/\1\t\2\tU/'| \
+	     sed -E 's/^([A-Z][A-Z]_[^_]+)_([^\(]+)\(([\+\-])\)/\1\t\2\t\3/'  >> "$NEWNAME"
+    #rm "$NAME"
     
 done
 

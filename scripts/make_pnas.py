@@ -45,11 +45,11 @@ for r in range(len(target_regions)):
 
     for i in range(30-bases_before, 31):   # 30 is start of cds
         s = seq[i:i+length]
-        s_rev = s[::-1]
+
         aso = s.reverse_complement()
 
-        maxcomp = max([SequenceMatcher(None, aso, s).find_longest_match(0, len(aso), 0, len(s)).size,
-                       SequenceMatcher(None, aso, s_rev).find_longest_match(0, len(aso), 0, len(s_rev)).size])
+        maxcomp = SequenceMatcher(None, aso, s).find_longest_match(0, len(aso), 0, len(s)).size
+        
         # design PNA for regions overlapping SC or SD region:
         if maxcomp < length*0.6:
             aso_name = gene+"_ASO_"+str(count).zfill(3)
@@ -75,7 +75,7 @@ for r in range(len(target_regions)):
             list_aso_sequences += [SeqRecord(aso, id=aso_name, description="")]
             # for fasta with reverse as well to get mismatches with seqmap:
             list_aso_targets += [SeqRecord(s, id=aso_name, description="")]
-            list_aso_targets += [SeqRecord(s_rev, id=aso_name + "_rev", description="")]
+
             heatmap_list += [i*[0] + length*[1] + (len(seq)-i-length)*[0]]
             heatmap_list[count-1][30:33] = [0.4 + i for i in heatmap_list[count-1][30:33]]
             if seq[15:28].find(sd) != -1:

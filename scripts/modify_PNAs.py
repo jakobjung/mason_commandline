@@ -21,10 +21,10 @@ for record in SeqIO.parse(seq_path, "fasta"):
     print(record.id)
     print(record.seq)
     aso = record.seq
-    s_rev = aso[::-1]
+
     aso_target = record.seq.reverse_complement()
-    maxcomp = max([SequenceMatcher(None, aso, aso_target).find_longest_match(0, len(aso), 0, len(aso_target)).size,
-                   SequenceMatcher(None, aso, s_rev).find_longest_match(0, len(aso), 0, len(s_rev)).size])
+    maxcomp = SequenceMatcher(None, aso, aso_target).find_longest_match(0, len(aso), 0, len(aso_target)).size
+    
     aso_name = record.id
     # check for longest purine stretch and purine perc:
     pur = 0
@@ -44,10 +44,9 @@ for record in SeqIO.parse(seq_path, "fasta"):
                            maxcomp, pur_perc, longest_purine_stretch, None, None, None], index=output_df.columns)
     output_df = output_df.append(added_row, ignore_index=True)
 
-    aso_target_rev = SeqIO.SeqRecord(aso_target[::-1], record.id + "_rev", description="")
     print(maxcomp)
     seqs.append(SeqIO.SeqRecord(aso_target, record.id, description=""))
-    seqs.append(aso_target_rev)
+    
 
 SeqIO.write(seqs, res_path + "/reference_sequences/aso_targets.fasta", "fasta")
 output_df.to_csv(res_path + "/outputs/result_table.tsv", sep="\t", index=False)
