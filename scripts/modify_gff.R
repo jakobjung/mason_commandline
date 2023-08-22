@@ -1,12 +1,7 @@
 library(dplyr)
 
-#setwd("~/Documents/mason/browser/pnag/static/data/2022_08_18_05_51_45/Ga0066243_109818/reference_sequences") #
-
 options(echo = F)
 args <- commandArgs(trailingOnly = T)
-
-#args <- c("./full_transcripts_2606217223.gff", "./genelengths.tsv")
-print(args)
 
 # import gff and fasta lengths:
 gff <-  read.delim(args[1], header = FALSE) 
@@ -25,9 +20,6 @@ if (length(errorgenes > 0)) {
   write(texterror, file=args[3], append = T) # write(texterror, file="../../warnings.txt", append = T)
 }
 
-#change gff if RL is bigger than end:
-#gff$V5 <- ifelse(gff$RL < gff$V5, gff$RL, gff$V5)
-#gff$V4 <- ifelse(gff$V4 < 1, 1, gff$V4)
 
 gff <- gff[!(duplicated(gff$V4) & duplicated(gff$V5) & duplicated(gff$V3)),]
 # write gff that is modified:

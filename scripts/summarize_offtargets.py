@@ -35,18 +35,10 @@ for i in all_off_targets["ASO"].unique():
     ot_aso = all_off_targets[all_off_targets["ASO"] == i]
     num_tot_ot = ot_aso.shape[0]-1
     num_tir_ot = ot_aso[ot_aso["TIR"] == "TIR"].shape[0]-1
-
-    print(df_plot)
-    #df_plot = df_plot.append(pd.Series([aso_n, "OT in transcriptome", "whole transcriptome", num_tot_ot,
-    #                                    target_seq], index=df_plot.columns), ignore_index=True)
-    #df_plot = df_plot.append(pd.Series([aso_n, "OT in TIR regions", "start regions", num_tir_ot,
-    #                                    target_seq], index=df_plot.columns), ignore_index=True)
     df_plot = pd.concat([df_plot, pd.DataFrame([[aso_n, "OT in transcriptome", "whole transcriptome", num_tot_ot,
                                                  target_seq]], columns=df_plot.columns)])
     df_plot = pd.concat([df_plot, pd.DataFrame([[aso_n, "OT in TIR regions", "start regions", num_tir_ot,
                                                  target_seq]], columns=df_plot.columns)])
-    print(num_tot_ot)
-    print(type(num_tot_ot))
     # change output:
     output_df.loc[ i, "OT_tot"] = num_tot_ot
     output_df.loc[i, "OT_TIR"] = num_tir_ot

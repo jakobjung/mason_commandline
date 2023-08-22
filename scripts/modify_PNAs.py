@@ -18,8 +18,6 @@ output_df = pd.DataFrame(columns=["ASO", "ASO_seq", "target_seq", "location",
                                       "OT_tot", "OT_TIR"])
 
 for record in SeqIO.parse(seq_path, "fasta"):
-    print(record.id)
-    print(record.seq)
     aso = record.seq
 
     aso_target = record.seq.reverse_complement()
@@ -44,14 +42,12 @@ for record in SeqIO.parse(seq_path, "fasta"):
                            maxcomp, pur_perc, longest_purine_stretch, None, None, None], index=output_df.columns)
     # output_df = output_df.append(added_row, ignore_index=True)
     output_df = pd.concat([output_df, pd.DataFrame([added_row])], ignore_index=True)
-
-    print(maxcomp)
     seqs.append(SeqIO.SeqRecord(aso_target, record.id, description=""))
     
 
 SeqIO.write(seqs, res_path + "/reference_sequences/aso_targets.fasta", "fasta")
 output_df.to_csv(res_path + "/outputs/result_table.tsv", sep="\t", index=False)
-subprocess.run(["Rscript",  "./scripts/melting.R", res_path + "/outputs/result_table.tsv"])
+#subprocess.run(["Rscript",  "./scripts/melting.R", res_path + "/outputs/result_table.tsv"])
 
 
 

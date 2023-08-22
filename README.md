@@ -20,7 +20,7 @@ Here we present the command line version of MASON (Make **A**nti**S**ense **O**l
 
 ## Installation
 
-To install the command line version of MASON, you need a linux-based bash shell and an installed version of [Anaconda](https://docs.anaconda.com/anaconda/install/linux/) or [Miniconda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/linux.html) and [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git). Start by cloning the git repository by:
+To install the command line version of MASON, you need a linux-based bash shell and an installed version of [Anaconda](https://docs.anaconda.com/anaconda/install/linux/) or [Miniconda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/linux.html) (preferred) and [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git). Start by cloning the git repository by:
 
 ```bash
 git clone git@github.com:BarquistLab/mason_commandline.git
@@ -31,6 +31,12 @@ git clone git@github.com:BarquistLab/mason_commandline.git
 ```bash
 cd mason_commandline
 conda env create -n mason_environment --file mason_environment.yml
+```
+
+After installing the packages of the new environment, it can be activated with:
+
+```bash
+conda activate mason_environment
 ```
 
 That's it. Now you're ready to go to run mason from the command line.
