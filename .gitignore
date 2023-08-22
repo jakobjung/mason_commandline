@@ -13,3 +13,9 @@
 data/**
 !data/README.md
 !data/example_data_mason_cmdline/**
+*.idea**
+*.iml
+*.xml
+*.fasta
+*.gff*
+
