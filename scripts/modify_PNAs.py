@@ -42,7 +42,8 @@ for record in SeqIO.parse(seq_path, "fasta"):
 
     added_row = pd.Series([aso_name, aso.__str__(), aso_target.__str__(), None,
                            maxcomp, pur_perc, longest_purine_stretch, None, None, None], index=output_df.columns)
-    output_df = output_df.append(added_row, ignore_index=True)
+    # output_df = output_df.append(added_row, ignore_index=True)
+    output_df = pd.concat([output_df, pd.DataFrame([added_row])], ignore_index=True)
 
     print(maxcomp)
     seqs.append(SeqIO.SeqRecord(aso_target, record.id, description=""))

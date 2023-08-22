@@ -1,7 +1,8 @@
-library(rmelting)
+
 library(Biostrings)
 library(dplyr)
 library(ggplot2)
+library(rmelting)
 
 args <- commandArgs(trailingOnly = T)
 

@@ -70,7 +70,8 @@ for r in range(len(target_regions)):
             # add to dataframe:
             added_row = pd.Series([aso_name, aso.__str__(), s.transcribe().__str__(), str(i-30) + ";" + str(i-30+length),
                                    maxcomp, pur_perc, longest_purine_stretch, None, None, None], index=output_df.columns)
-            output_df = output_df.append(added_row, ignore_index=True)
+            #output_df = output_df.append(added_row, ignore_index=True)
+            output_df = pd.concat([output_df, pd.DataFrame([added_row])], ignore_index=True)
             # save ASO sequences:
             list_aso_sequences += [SeqRecord(aso, id=aso_name, description="")]
             # for fasta with reverse as well to get mismatches with seqmap:

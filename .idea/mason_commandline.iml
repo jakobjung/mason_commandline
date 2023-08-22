@@ -1,8 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="PYTHON_MODULE" version="4">
   <component name="NewModuleRootManager">
-    <content url="file://$MODULE_DIR$" />
-    <orderEntry type="inheritedJdk" />
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/data/AE009951" />
+      <excludeFolder url="file://$MODULE_DIR$/data/CM000440" />
+      <excludeFolder url="file://$MODULE_DIR$/data/CP003700" />
+      <excludeFolder url="file://$MODULE_DIR$/data/CP007062" />
+      <excludeFolder url="file://$MODULE_DIR$/data/CP028108" />
+      <excludeFolder url="file://$MODULE_DIR$/data/ESSSCREEN" />
+      <excludeFolder url="file://$MODULE_DIR$/data/ESSSCREEN_0mm" />
+      <excludeFolder url="file://$MODULE_DIR$/data/ESSSCREEN_1mm" />
+      <excludeFolder url="file://$MODULE_DIR$/data/K12_ESSSCREEN_0mm" />
+      <excludeFolder url="file://$MODULE_DIR$/data/K12_ESSSCREEN_1mm" />
+      <excludeFolder url="file://$MODULE_DIR$/data/K12_ESSSCREEN_2mm" />
+      <excludeFolder url="file://$MODULE_DIR$/data/UPEC_ESSSCREEN_2mm" />
+      <excludeFolder url="file://$MODULE_DIR$/data/abcde" />
+      <excludeFolder url="file://$MODULE_DIR$/data/fuso_genomes" />
+      <excludeFolder url="file://$MODULE_DIR$/data/mason" />
+      <excludeFolder url="file://$MODULE_DIR$/data/paramita_ecoli" />
+      <excludeFolder url="file://$MODULE_DIR$/data/paramita_salm" />
+      <excludeFolder url="file://$MODULE_DIR$/data/prevotella_microbiome" />
+      <excludeFolder url="file://$MODULE_DIR$/data/result" />
+      <excludeFolder url="file://$MODULE_DIR$/data/result_1" />
+      <excludeFolder url="file://$MODULE_DIR$/data/sandra_pna_new" />
+      <excludeFolder url="file://$MODULE_DIR$/data/sandra_rn4220_2" />
+      <excludeFolder url="file://$MODULE_DIR$/data/sandrita_lugdu" />
+      <excludeFolder url="file://$MODULE_DIR$/data/sandrita_rn4220" />
+      <excludeFolder url="file://$MODULE_DIR$/data/saureus" />
+      <excludeFolder url="file://$MODULE_DIR$/data/valentina" />
+      <excludeFolder url="file://$MODULE_DIR$/data/valentina3" />
+    </content>
+    <orderEntry type="jdk" jdkName="MC_new" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>
