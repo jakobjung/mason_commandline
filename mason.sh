@@ -48,7 +48,7 @@ Help()
    echo "                   results are stored"
    echo "                   - (STRING)"
    echo
-   echo "Required if you want to design ASO sequences for a scpecific gene:"
+   echo "Required if you want to design ASO sequences for a specific gene:"
    echo "                -t target gene; Use the locus tag, as annotated in the"
    echo "                   GFF, column 9, e.g. [...];locus_tag=b1253;[...]"
    echo "                   - (STRING)"
@@ -111,12 +111,10 @@ scriptDir=$(dirname -- "$(readlink -f -- "$BASH_SOURCE")")
 echo "fasta: $fasta";
 echo "gff: $gff";
 
-if  [ -z "$fasta"] || [-z "$gff" ] || [-z "$mismatches"]; then
-        echo 'ERROR: Missing required arguments for fasta (-f) or gff (-g) or mismatches (-m)' >&2
-        exit 1
+if [ -z "$fasta" ] || [ -z "$gff" ] || [ -z "$mismatches" ]; then
+    echo 'ERROR: Missing required arguments for fasta (-f) or gff (-g) or mismatches (-m)' >&2
+    exit 1
 fi
-
-
 
 
 mkdir -p "./data/$result_id"
@@ -147,6 +145,7 @@ grep -P "\tCDS\t|\tsRNA\t|\tncRNA\t|\tgene\t" $gff |\
 
 bioawk -c fastx '{ print $name, length($seq) }' < "$fasta"  > "$REF/genelengths.tsv"
 
+echo "$PATH"
 # change the gff entries that go too far:
 Rscript ./scripts/modify_gff.R "$REF/full_transcripts_$GFF" "$REF/genelengths.tsv" "$WARNINGS"
 

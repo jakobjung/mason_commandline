@@ -14,3 +14,8 @@ data/**
 !data/README.md
 !data/example_data_mason_cmdline/**
 fuso_analysis_05*
+*.idea**
+*.iml
+*.xml
+*.fasta
+*.gff*
