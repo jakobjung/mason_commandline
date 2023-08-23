@@ -16,6 +16,10 @@ Software needed: Bash shell, [Anaconda](https://docs.anaconda.com/anaconda/insta
 
 Here we present the command line version of MASON (Make **A**nti**S**ense **O**ligomers **N**ow). It is the bash-executable version of the MASON web-tool. It enables users to screen PNAs and other antisense oligomers (ASOs) for off-target effects and sequence attributes. Compared to the website (https://www.helmholtz-hiri.de/en/datasets/mason/), it can be used to screen pre-defined sets of ASOs for off-targets in targeted organisms. 
 
+For a detailed description of the tool, as well as experimental applications, have a look at our paper, published in RNA: 
+
+[Design and off-target prediction for antisense oligomers targeting bacterial mRNAs with the MASON web server](https://rnajournal.cshlp.org/content/29/5/570)
+
 
 
 ## Installation

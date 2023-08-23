@@ -114,6 +114,7 @@ echo "provided gff file: $gff";
 
 if [ -z "$fasta" ] || [ -z "$gff" ] || [ -z "$mismatches" ]; then
     echo 'ERROR: Missing required arguments for fasta (-f) or gff (-g) or mismatches (-m)' >&2
+    Help
     exit 1
 fi
 
